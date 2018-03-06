@@ -7,7 +7,7 @@ public class DoStuff
 {
     public static void main(String [] args)
     {
-        System.out.println("\n\n");
+        System.out.println("\n");
         File d = new File("./");
         File [] f = d.listFiles();
         Date date = new Date();
@@ -48,7 +48,11 @@ public class DoStuff
             
             else
             {
-                System.out.println("I hate to say it, man, but that ain't a directory. It could be a file, though.\n\n");
+                System.out.println("Invalid Directory");
+                System.out.println("usage:  java -jar hw5.jar [directory] [-a | -l | -s]");
+                System.out.println("current directory is default");
+                System.out.println("-a alphabetical sorting");
+                System.out.println("-l last time modified sorting");
             }
         }
         
@@ -64,8 +68,10 @@ public class DoStuff
             
             else
             {
-                System.out.println("I hate to say it, man, but that ain't a directory. It could be a file, though.\n\n");
-                print(d, f);
+                System.out.println("usage:  java -jar hw5.jar [directory] [-a | -l | -s]");
+                System.out.println("current directory is default");
+                System.out.println("-a alphabetical sorting");
+                System.out.println("-l last time modified sorting");
             }
         }
         
@@ -81,8 +87,10 @@ public class DoStuff
             
             else
             {
-                System.out.println("I hate to say it, man, but that ain't a directory. It could be a file, though.\n\n");
-                print(d, f);
+                System.out.println("usage:  java -jar hw5.jar [directory] [-a | -l | -s]");
+                System.out.println("current directory is default");
+                System.out.println("-a alphabetical sorting");
+                System.out.println("-l last time modified sorting");
             }
         }
         
@@ -121,11 +129,6 @@ public class DoStuff
             System.out.println("-l last time modified sorting");
         }
         
-        else if(args.length == 2 && (args[1].equals("-a") || args[1].equals("-s") || args[1].equals("-l")))
-        {
-            System.out.println("LOL NAH");
-        }
-        
         else
         {
             System.out.println("usage:  java -jar hw5.jar [directory] [-a | -l | -s]");
@@ -133,21 +136,27 @@ public class DoStuff
             System.out.println("-a alphabetical sorting");
             System.out.println("-l last time modified sorting");
         }
-        System.out.println("\n\n");
+        System.out.println("\n");
     }
     
     public static void print(File f, File [] fn)
     {
-        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd HH:mm:ss");
+        SimpleDateFormat d = new SimpleDateFormat("MMM dd HH:mm:ss");
+      
+        int slash = 0;
+        String fileName = "";
         for(File file : fn)
         {
+            slash = (file.toString()).lastIndexOf("/");
+            fileName = (file.toString()).substring(slash > 0 ? slash + 1 : 0);
+            
             if(file.isDirectory())
             {
-                System.out.println(file.length() + "\t" + sdf.format(file.lastModified()) + "\t  " + file);
+                System.out.println(file.length() + "\t" + d.format(file.lastModified()) + "\t  " + fileName);
             }
             if(file.isFile())
             {
-                System.out.println(file.length() + "\t" + sdf.format(file.lastModified()) + "\t  " + file);
+                System.out.println(file.length() + "\t" + d.format(file.lastModified()) + "\t  " + fileName);
             }
         }
     }
@@ -164,7 +173,7 @@ public class DoStuff
     {
         public int compare(File f1, File f2)
         {
-            return((int)(f1.lastModified() - f2.lastModified()));
+            return((int)Long.valueOf(f1.lastModified()).compareTo(f2.lastModified()));
         }
     }
     
@@ -177,3 +186,4 @@ public class DoStuff
         }
     }
 }
+
