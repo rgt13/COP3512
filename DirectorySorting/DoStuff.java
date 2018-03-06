@@ -53,6 +53,7 @@ public class DoStuff
                 System.out.println("current directory is default");
                 System.out.println("-a alphabetical sorting");
                 System.out.println("-l last time modified sorting");
+		System.out.println("-s file size");
             }
         }
         
@@ -91,6 +92,7 @@ public class DoStuff
                 System.out.println("current directory is default");
                 System.out.println("-a alphabetical sorting");
                 System.out.println("-l last time modified sorting");
+		System.out.println("-s file size");
             }
         }
         
@@ -110,6 +112,7 @@ public class DoStuff
                 System.out.println("current directory is default");
                 System.out.println("-a alphabetical sorting");
                 System.out.println("-l last time modified sorting");
+		System.out.println("-s file size");
             }
         }
         
@@ -119,6 +122,7 @@ public class DoStuff
             System.out.println("current directory is default");
             System.out.println("-a alphabetical sorting");
             System.out.println("-l last time modified sorting");
+	    System.out.println("-s file size");
         }
         
         else if(args.length == 1 && (!args[0].equals("-a") || !args[0].equals("-s") || !args[0].equals("-l")))
@@ -127,6 +131,7 @@ public class DoStuff
             System.out.println("current directory is default");
             System.out.println("-a alphabetical sorting");
             System.out.println("-l last time modified sorting");
+	    System.out.println("-s file size");	
         }
         
         else
@@ -135,16 +140,18 @@ public class DoStuff
             System.out.println("current directory is default");
             System.out.println("-a alphabetical sorting");
             System.out.println("-l last time modified sorting");
+            System.out.println("-s file size");
         }
         System.out.println("\n");
     }
     
     public static void print(File f, File [] fn)
     {
-        SimpleDateFormat d = new SimpleDateFormat("MMM dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd HH:mm:ss");
       
         int slash = 0;
         String fileName = "";
+    
         for(File file : fn)
         {
             slash = (file.toString()).lastIndexOf("/");
@@ -152,11 +159,11 @@ public class DoStuff
             
             if(file.isDirectory())
             {
-                System.out.println(file.length() + "\t" + d.format(file.lastModified()) + "\t  " + fileName);
+                System.out.println(file.length() + "\t" + sdf.format(file.lastModified()) + "\t  " + file.getName());
             }
-            if(file.isFile())
+            else if(file.isFile())
             {
-                System.out.println(file.length() + "\t" + d.format(file.lastModified()) + "\t  " + fileName);
+                System.out.println(file.length() + "\t" + sdf.format(file.lastModified()) + "\t  " + file.getName());
             }
         }
     }
@@ -173,11 +180,10 @@ public class DoStuff
     {
         public int compare(File f1, File f2)
         {
-            return((int)Long.valueOf(f1.lastModified()).compareTo(f2.lastModified()));
+            return((int)(f1.lastModified() - f2.lastModified()));
         }
     }
-    
-    
+        
     private static class AlphaCompare implements Comparator<File>
     {
         public int compare(File f1, File f2)
